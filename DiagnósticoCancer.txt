@@ -1,135 +1,164 @@
-:- dynamic antecedente1/1.
-:- dynamic antecedente2/1.
-:- dynamic antecedente3/1.
-:- dynamic antecedente4/1.
-:- dynamic ant_familiares/1.
-:- dynamic lesion/1.
-:- dynamic pigmentacion/1.
-:- dynamic superficie/1. 
-:- dynamic ulcera/1.
-:- dynamic inflamacion/1.
-:- dynamic localizacion/1.
-:- dynamic piel/1.
-:- dynamic edad/1.
 
-cancer(espino_celular) :-
-	lesion(placa_superficial), superficie(rugoso), inflamacion(presente), ulcera(presente), (antecedente1(quemaduras_solares); antecedente4(enfermedad_Bowen); antecedente2(heridas_superficiales_cicatrizadas); (edad(X), X >= 60)).
+:- dynamic edad/1, antecedente1/1, antecedente2/1, antecedente3/1, antecedente4/1, ant_familiares/1, lesion/1, superficie/1, inflamacion/1, ulcera/1, pigmentacion/1, localizacion/1, piel/1, antecedente5/1, antecedente6/1, antecedente7/1, antecedente8/1, antecedente9/1, antecedente10/1, antecedente11/1, antecedente12/1, antecedente13/1, antecedente14/1, antecedente15/1, antecedente16/1, antecedente17/1, antecedente18/1, antecedente19/1.
+pregunta_edad :-
+    write('¿Cuál es la edad del paciente? '), 
+    read(Edad),
+    assert(edad(Edad)).
 
-cancer(baso_celular) :-
-	lesion(marca_superficial), superficie(escamosa), ulcera(presente), pigmentacion(presente), (antecedente1(quemaduras_solares); (edad(X), X >= 60)).
+pregunta_antecedente1 :-
+    write('¿El paciente ha sufrido quemaduras solares? (si/no): '), read(R),
+    (R == si -> assert(antecedente1(quemaduras_solares)); true).
 
-cancer(melanoma_extension) :-
-    lesion(marca_elevada), pigmentacion(presente), superficie(plegada_elevada), (antecedente1(quemaduras_solares); antecedente2(exposicion_camaras_bronceo); antecedente3(fotoquimioterapia); (edad(X), X >= 60)).
+pregunta_antecedente2 :-
+    write('¿El paciente ha estado expuesto a cámaras de bronceo? (si/no): '), read(R),
+    (R == si -> assert(antecedente2(exposicion_camaras_bronceo)); true).
 
-cancer(melanoma_nodular) :-
-    lesion(bulto_sobresaliente), superficie(lisa_verrugosa), pigmentacion(presente), localizacion(cuello), (antecedente1(quemaduras_solares); antecedente2(exposicion_camaras_bronceo); antecedente3(fotoquimioterapia); (edad(X), X >= 60)).
+pregunta_antecedente3 :-
+    write('¿El paciente ha recibido fotoquimioterapia? (si/no): '), read(R),
+    (R == si -> assert(antecedente3(fotoquimioterapia)); true).
 
-cancer(melanoma_lentiginoso_acral) :-
-    pigmentacion(presente), lesion(marca), superficie(verrugosa), (localizacion(manos); localizacion(pies)), (antecedente1(quemaduras_solares); antecedente2(exposicion_camaras_bronceo); antecedente3(fotoquimioterapia); (edad(X), X >= 60)).
+pregunta_antecedente4 :-
+    write('¿El paciente ha tenido enfermedad de Bowen? (si/no): '), read(R),
+    (R == si -> assert(antecedente4(enfermedad_Bowen)); true).
 
-cancer(melanoma_lentigo_maligno) :-
-    localizacion(cara_cuello), pigmentacion(presente), ulcera(presente), superficie(rugoso), (antecedente1(quemaduras_solares); antecedente2(exposicion_camaras_bronceo); antecedente3(fotoquimioterapia); (edad(X), X >= 60)).
+pregunta_ant_familiares :-
+    write('¿El paciente tiene antecedentes familiares de cáncer? (si/no): '), read(R),
+    (R == si -> assert(ant_familiares(predisposicion_cancer)); true).
 
-cancer(propenso) :-
-    (antecedente2(heridas_superficiales_cicatrizadas); piel(blanca); antecedente1(quemaduras_solares);(edad(X), X >= 60)), ant_familiares(predisposición_cancer).
+pregunta_lesion :-
+    write('¿Qué tipo de lesión presenta? (marca/placa/nodulo/bulto): '), read(R),
+    assert(lesion(R)).
 
-pregunta('Pregunta de la edad') :-
-    write('Cual es tu edad: '),
-    read(rpt),
-    assert(edad(rpt)).
+pregunta_superficie :-
+    write('¿Cómo es la superficie de la lesión? (rugoso/liso/verrugoso/escamoso): '), read(R),
+    assert(superficie(R)).
 
-pregunta('Pregunta antecedente 1') :-
-    write('¿Sufres o has tenido alguna quemadura solar? '),
-    read(rpt),
-    (rpt == si => assert(antecedente1(quemaduras_solares));
-    rpt == no => true).
+pregunta_inflamacion :-
+    write('¿La lesión tiene inflamación? (si/no): '), read(R),
+    (R == si -> assert(inflamacion(presente)); true).
 
-pregunta('Pregunta antecedente 2') :-
-    write('¿Tienes heridas superficiales sin sanar? '),
-    read(rpt),
-    (rpt == si => assert(antecedente2(heridas_superficiales_cicatrizadas));
-    rpt == no =>true).
+pregunta_ulcera :-
+    write('¿La lesión tiene úlcera? (si/no): '), read(R),
+    (R == si -> assert(ulcera(presente)); true).
 
-pregunta('Pregunta antecedente 2.1') :-
-    write('¿Utilizas camaras de bronceo? '),
-    read(rpt),
-    (rpt == si => assert(antecedente2(exposicion_camaras_bronceo));
-    rpt == no =>true).
+pregunta_pigmentacion :-
+    write('¿La lesión tiene pigmentación? (si/no): '), read(R),
+    (R == si -> assert(pigmentacion(presente)); true).
 
-pregunta('Pregunta antecedente 3') :-
-    write('¿Realizo algun procedimiento con la fotoquimiterapia? '),
-    read(rpt),
-    (rpt == si => assert(antecedente3(fotoquimiterapia));
-    rpt == no =>true).
-    
-pregunta('Pregunta antecedente 4') :-
-    write('¿Posee una lesion cancerosa o la enfermedad de Bowen? '),
-    read(rpt),
-    (rpt == si => assert(antecedente4(enfermedad_Bowen));
-    rpt == no =>true).
-    
-pregunta('Pregunta lesion') :-
-    write('Coloque el numero de la lesion/herida segun usted le parezca: '),
-    write('1. Una placa superficial'),
-    write('2. Una marca superficial'),
-    write('3. Como una marca elevada a corde de la piel'),
-    write('4. Como un bulto sobresaliente'),
-    write('5. Una marca plana a corde a la piel'),
-    write('6. Ninguna'),
-    read(rpt),
-    (rpt == 1 => assert(lesion(placa_superficial));
-    rpt == 2 => assert(lesion(marca_superficial));
-    rpt == 3 => assert(lesion(marca_elevada));
-    rpt == 4 => assert(lesion(bulto_sobresaliente));
-    rpt == 5 => assert(lesion(marca));
-    rpt == 6 => true).
+pregunta_localizacion :-
+    write('¿Dónde está localizada la lesión? (cuello/manos/pies/cara): '), read(R),
+    assert(localizacion(R)).
 
-pregunta('Pregunta superficie') :-
-    write('Coloque el numero segun la superficie que padece la zona: '),
-    write('1. Rugosa'),
-    write('2. Escamosa'),
-    write('3. Esta plegada y elevada'),
-    write('4. Es lisa y verrugosa'),
-    write('5. Solo verrugosa'),
-    write('6. Ninguno'),
-    read(rpt),
-    (rpt == 1 => assert(superficie(rugoso));
-    rpt == 2 => assert(superficie(escamosa));
-    rpt == 3 => assert(superficie(plegada_elevada));
-    rpt == 4 => assert(superficie(lisa_verrugosa));
-    rpt == 5 => assert(superficie(verrugosa))
-    rpt == 6 => true).
+pregunta_piel :-
+    write('¿Cómo es la piel del paciente? (blanca/oscura): '), read(R),
+    assert(piel(R)).
 
-pregunta('Pregunta inflamacion') :-
-    write('Presenta inflamación'),
-    read(rpt),
-    (rpt == si => assert(inflamacion(presente));
-    rpt == no => true).
+pregunta_antecedente5 :-
+    write('¿Sufre de alguna enfermedad crónica? (si/no): '), read(R),
+    (R == si -> assert(antecedente5(enfermedad_cronica)); true).
 
-pregunta('Pregunta ulcera') :-
-    write('Se presenta como ulcera'),
-    read(rpt),
-    (rpt == si => assert(ulcera(presente));
-    rpt == no => true).
+pregunta_antecedente6 :-
+    write('¿Tiene alguna enfermedad inmunosupresora? (si/no): '), read(R),
+    (R == si -> assert(antecedente6(enfermedades_inmunosupresoras)); true).
 
-pregunta('Pregunta pigmentacion') :-
-    write('¿Presenta algun color distinto?'),
-    read(rpt),
-    (rpt == si => assert(pigmentacion(presente));
-    rpt == no => true).
+pregunta_antecedente7 :-
+    write('¿Ha tenido alguna lesión cutánea previa? (si/no): '), read(R),
+    (R == si -> assert(antecedente7(lesiones_previas)); true).
 
-pregunta('Pregunta localizacion') :-
-    write('Esta presente en: '),
-    write('1. manos'),
-    write('2. pies'),
-    write('3. ninguno'),
-    read(rpt),
-    (rpt == 1 => assert(localizacion(manos));
-    rpt == 2 => assert(localizacion(pies));
-    rpt == 3 => true).
+pregunta_antecedente8 :-
+    write('¿Tiene cicatrices quirúrgicas previas? (si/no): '), read(R),
+    (R == si -> assert(antecedente8(cicatrices_quirurgicas)); true).
 
-pregunta('Pregunta piel') :- 
-    write('¿Su piel es de tez blanca?'),
-    read(rpt),
-    (rpt == si => assert(piel(blanca));
-    rpt == no => true).
+pregunta_antecedente9 :-
+    write('¿Tiene hábitos de vida no saludables? (si/no): '), read(R),
+    (R == si -> assert(antecedente9(habitos_vida_no_saludables)); true).
+
+pregunta_antecedente10 :-
+    write('¿Sufre de desequilibrio hormonal? (si/no): '), read(R),
+    (R == si -> assert(antecedente10(desequilibrio_hormonal)); true).
+
+pregunta_antecedente11 :-
+    write('¿Fuma el paciente? (si/no): '), read(R),
+    (R == si -> assert(antecedente11(fuma)); true).
+
+pregunta_antecedente12 :-
+    write('¿Consume alcohol el paciente? (si/no): '), read(R),
+    (R == si -> assert(antecedente12(consumo_alcohol)); true).
+
+pregunta_antecedente13 :-
+    write('¿Hace actividad física regularmente el paciente? (si/no): '), read(R),
+    (R == si -> assert(antecedente13(actividad_fisica)); true).
+
+pregunta_antecedente14 :-
+    write('¿Está expuesto a productos químicos? (si/no): '), read(R),
+    (R == si -> assert(antecedente14(exposicion_quimicos)); true).
+
+pregunta_antecedente15 :-
+    write('¿Tiene una dieta saludable el paciente? (si/no): '), read(R),
+    (R == si -> assert(antecedente15(dieta_saludable)); true).
+
+pregunta_antecedente16 :-
+    write('¿Ha viajado el paciente a áreas tropicales recientemente? (si/no): '), read(R),
+    (R == si -> assert(antecedente16(viaje_tropical)); true).
+
+pregunta_antecedente17 :-
+    write('¿Está expuesto el paciente a radiaciones? (si/no): '), read(R),
+    (R == si -> assert(antecedente17(exposicion_radiaciones)); true).
+
+pregunta_antecedente18 :-
+    write('¿Tiene el paciente antecedentes de infecciones cutáneas? (si/no): '), read(R),
+    (R == si -> assert(antecedente18(infecciones_cutaneas)); true).
+
+pregunta_antecedente19 :-
+    write('¿Ha tenido el paciente algún tipo de alergia cutánea? (si/no): '), read(R),
+    (R == si -> assert(antecedente19(alergias_cutaneas)); true).
+
+
+diagnostico :-
+    pregunta_edad,
+    pregunta_antecedente1,
+    pregunta_antecedente2,
+    pregunta_antecedente3,
+    pregunta_antecedente4,
+    pregunta_ant_familiares,
+    pregunta_lesion,
+    pregunta_superficie,
+    pregunta_inflamacion,
+    pregunta_ulcera,
+    pregunta_pigmentacion,
+    pregunta_localizacion,
+    pregunta_piel,
+    pregunta_antecedente5,
+    pregunta_antecedente6,
+    pregunta_antecedente7,
+    pregunta_antecedente8,
+    pregunta_antecedente9,
+    pregunta_antecedente10,
+    pregunta_antecedente11,
+    pregunta_antecedente12,
+    pregunta_antecedente13,
+    pregunta_antecedente14,
+    pregunta_antecedente15,
+    pregunta_antecedente16,
+    pregunta_antecedente17,
+    pregunta_antecedente18,
+    pregunta_antecedente19,
+    diagnostico_resultado.
+
+
+diagnostico_resultado :-
+    edad(Edad),
+    lesion(TipoLesion),
+    superficie(Superficie),
+    inflamacion(Inflamacion),
+    ulcera(Ulcera),
+    pigmentacion(Pigmentacion),
+    localizacion(Localizacion),
+    piel(Piel),
+    (
+        (Edad >= 50, (TipoLesion == nodulo ; TipoLesion == bulto), (Inflamacion == presente ; Ulcera == presente), (Pigmentacion == presente ; Localizacion == cuello)) -> 
+            write('El paciente tiene alto riesgo de cáncer cutáneo.');
+        (Edad < 50, (TipoLesion == marca ; TipoLesion == placa), (Inflamacion == presente ; Ulcera == presente), (Pigmentacion == presente ; Localizacion == cara)) -> 
+            write('El paciente tiene bajo riesgo de cáncer cutáneo.');
+        write('El diagnóstico no es concluyente, se recomienda más pruebas.')
+    ).
